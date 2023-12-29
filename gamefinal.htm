@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body{
+      background-image: url(./bg.png);
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    input{
+      background-color: lightslategray;
+      padding: 5px;
+    }
+    .set{
+      font-size: 20px;
+      font-family: '微軟正黑體';
+      color: red;
+    }
+    #game {
+      width: 600px;
+      height: 600px;
+      border: 1px solid #000;
+      position: relative;
+      overflow: hidden;
+      margin: auto;
+      cursor: url(./球.png)50 50, auto;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    #game img {
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .hole {
+      width: 200px;
+      height: 200px;
+      background-color: #eee;
+      position: relative;
+    }
+
+    .ho {
+      position: absolute;
+      width: 100%;
+      top: 87.5%;
+    }
+
+    .mouse1 {
+      position: absolute;
+      left: -10px;
+      animation: moveUpAndDown 3s infinite;
+      display: none;
+    }
+
+    .mouse2 {
+      position: absolute;
+      left: -10px;
+      animation: moveUpAndDown 2s infinite;
+      display: none;
+    }
+    .mouse3 {
+      position: absolute;
+      left: -10px;
+      animation: moveUpAndDown 1s infinite;
+      display: none;
+    }
+    .mouse4 {
+      position: absolute;
+      left: -10px;
+      animation: moveUpAndDown 2.5s infinite;
+      display: none;
+    }
+    .mouse5 {
+      position: absolute;
+      left: -10px;
+      animation: moveUpAndDown 3s infinite;
+      display: none;
+    }
+    .mouse6 {
+      position: absolute;
+      left: -10px;
+      animation: moveUpAndDown 2s infinite;
+      display: none;
+    }
+    .mouse7 {
+      position: absolute;
+      left: -10px;
+      animation: moveUpAndDown 1.5s infinite;
+      display: none;
+    }
+    .mouse8 {
+      position: absolute;
+      left: -10px;
+      animation: moveUpAndDown 3s infinite;
+      display: none;
+    }
+    .mouse9 {
+      position: absolute;
+      left: -10px;
+      animation: moveUpAndDown 2s infinite;
+      display: none;
+    }
+
+    @keyframes moveUpAndDown {
+      0% {
+        top: 17.5%;
+        opacity: 0;
+      }
+
+      50% {
+        top: 8%;
+        opacity: 1;
+      }
+
+      100% {
+        top: 17.5%;
+        opacity: 0;
+      }
+    }
+
+    .set {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="set">
+    <input type="button" value="開始" id="btn-start">
+    <br>
+    <p>分數: <span id="text-score">0</span></p>
+    <p>剩餘: <span id="text-time">0</span>秒</p>
+    <p>最高分玩家: <span id="text-hsname">-</span></p>
+    <p>最高分分數: <span id="text-hsscore">0</span></p>
+  </div>
+  <div id="game">
+    <div class="hole">
+      <img class="mouse mouse1" src="./地鼠.png">
+      <img class="ho" src="./洞.png">
+    </div>
+    <div class="hole">
+      <img class="mouse mouse2" src="./地鼠.png">
+      <img class="ho" src="./洞.png">
+    </div>
+    <div class="hole">
+      <img class="mouse mouse3" src="./地鼠.png">
+      <img class="ho" src="./洞.png">
+    </div>
+    <div class="hole">
+      <img class="mouse mouse4" src="./地鼠.png">
+      <img class="ho" src="./洞.png">
+    </div>
+    <div class="hole">
+      <img class="mouse mouse5" src="./地鼠.png">
+      <img class="ho" src="./洞.png">
+    </div>
+    <div class="hole">
+      <img class="mouse mouse6" src="./地鼠.png">
+      <img class="ho" src="./洞.png">
+    </div>
+    <div class="hole">
+      <img class="mouse mouse7" src="./地鼠.png">
+      <img class="ho" src="./洞.png">
+    </div>
+    <div class="hole">
+      <img class="mouse mouse8" src="./地鼠.png">
+      <img class="ho" src="./洞.png">
+    </div>
+    <div class="hole">
+      <img class="mouse mouse9" src="./地鼠.png">
+      <img class="ho" src="./洞.png">
+    </div>
+  </div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'
+    integrity='sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=='
+    crossorigin='anonymous'></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    $(document).ready(function () {
+      let score = 0;
+      let time = 0;
+      let timer;
+      const hs = {
+        name: '-',
+        score: 0
+      };
+
+      $('#btn-start').click(function () {
+        $(this).attr('disabled', true);
+        startGame();
+      });
+
+      function startGame() {
+        score = 0;
+        $('#text-score').text(score);
+        time = 20; 
+        $('#text-time').text(time);
+
+        timer = setInterval(function () {
+          time--;
+          $('#text-time').text(time);
+
+          if (time === 0) {
+            clearInterval(timer);
+            endGame();
+            if (score > hs.score) {
+              Swal.fire({
+                icon: 'success',
+                title: '時間到',
+                text: `最高分，你得到 ${score} 分`,
+                input: 'text',
+                inputAttributes: {
+                  required: true
+                },
+                inputPlaceholder: '請輸入你的名字',
+                validationMessage: '請輸入你的名字',
+                allowOutsideClick: false,
+                allowEscapeKey: false
+              }).then(function (result) {
+                hs.score = score
+                hs.name = result.value
+                $('#text-hsname').text(hs.name)
+                $('#text-hsscore').text(hs.score)
+                localStorage.hs = JSON.stringify(hs)
+              })
+            } else {
+              Swal.fire({
+                icon: 'info',
+                title: '時間到',
+                text: `你得到 ${score} 分`
+              })
+            }
+          }
+        }, 1000);
+
+        showMole();
+      }
+
+      function showMole() {
+        $('.mouse').css('display', 'block');
+        setTimeout(hideMole, 2500);
+        $('.mouse').attr('src', './地鼠.png');
+      }
+    
+
+
+
+      function hideMole() {
+        $('.mouse').css('display', 'none');
+        if (time > 0) {
+          showMole();
+        }
+      }
+
+      $('.mouse').click(function () {
+
+        $(this).attr('src', './地鼠暈倒.png');
+
+        $(this).fadeOut();
+
+        score++
+        $('#text-score').text(score)
+
+      });
+
+
+
+      function endGame() {
+        $('#btn-start').attr('disabled', false);
+      }
+    });
+  </script>
+</body>
+
+</html>
